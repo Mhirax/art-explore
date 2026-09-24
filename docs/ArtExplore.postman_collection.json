@@ -1,0 +1,944 @@
+{
+  "info": {
+    "name": "Art Explore API",
+    "description": "Backend API for Art Explore. Set the {{baseUrl}} variable. Login stores {{accessToken}} and {{refreshToken}} automatically via the Login test script.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:4000"
+    },
+    {
+      "key": "accessToken",
+      "value": ""
+    },
+    {
+      "key": "refreshToken",
+      "value": ""
+    },
+    {
+      "key": "resetToken",
+      "value": ""
+    },
+    {
+      "key": "institutionId",
+      "value": ""
+    },
+    {
+      "key": "userId",
+      "value": ""
+    },
+    {
+      "key": "subCategoryId",
+      "value": ""
+    },
+    {
+      "key": "tagId",
+      "value": ""
+    },
+    {
+      "key": "exhibitionId",
+      "value": ""
+    },
+    {
+      "key": "submissionId",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "Health",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/health"
+      }
+    },
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Signup (public USER)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/v1/auth/signup",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fullName\": \"Ada Lovelace\",\n  \"email\": \"ada@example.com\",\n  \"password\": \"password123\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const res = pm.response.json();",
+                  "if (res.success) {",
+                  "  pm.collectionVariables.set('accessToken', res.data.accessToken);",
+                  "  pm.collectionVariables.set('refreshToken', res.data.refreshToken);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@artexplore.africa\",\n  \"password\": \"change-me-on-first-login\"\n}"
+            },
+            "url": "{{baseUrl}}/api/v1/auth/login"
+          }
+        },
+        {
+          "name": "Register (Super Admin only)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fullName\": \"New Admin\",\n  \"email\": \"new.admin@artexplore.africa\",\n  \"password\": \"supersecret\",\n  \"role\": \"ADMIN\"\n}"
+            },
+            "url": "{{baseUrl}}/api/v1/auth/register"
+          }
+        },
+        {
+          "name": "Refresh",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"refreshToken\": \"{{refreshToken}}\"\n}"
+            },
+            "url": "{{baseUrl}}/api/v1/auth/refresh"
+          }
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"refreshToken\": \"{{refreshToken}}\"\n}"
+            },
+            "url": "{{baseUrl}}/api/v1/auth/logout"
+          }
+        },
+        {
+          "name": "Forgot Password",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@artexplore.africa\"\n}"
+            },
+            "description": "Always returns 200. If the email is registered and active, a reset link is emailed to {{FRONTEND_URL}}/reset-password?token=... Paste that token into the resetToken collection variable for the next request.",
+            "url": "{{baseUrl}}/api/v1/auth/forgot-password"
+          }
+        },
+        {
+          "name": "Reset Password",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"token\": \"{{resetToken}}\",\n  \"newPassword\": \"a-stronger-password\"\n}"
+            },
+            "description": "Single-use token from the reset email (expires in 1 hour). On success the password is changed and existing sessions are revoked.",
+            "url": "{{baseUrl}}/api/v1/auth/reset-password"
+          }
+        },
+        {
+          "name": "Me",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": "{{baseUrl}}/api/v1/auth/me"
+          }
+        },
+        {
+          "name": "Change Password",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"currentPassword\": \"change-me-on-first-login\",\n  \"newPassword\": \"a-stronger-password\"\n}"
+            },
+            "url": "{{baseUrl}}/api/v1/auth/change-password"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Institutions (Public)",
+      "item": [
+        {
+          "name": "List",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/institutions?page=1&limit=20",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "institutions"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "20"
+                },
+                {
+                  "key": "area",
+                  "value": "ISLAND",
+                  "disabled": true
+                },
+                {
+                  "key": "type",
+                  "value": "GALLERY",
+                  "disabled": true
+                },
+                {
+                  "key": "search",
+                  "value": "art",
+                  "disabled": true
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Map",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/institutions/map"
+          }
+        },
+        {
+          "name": "Detail",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/institutions/{{institutionId}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Admin - Institutions",
+      "item": [
+        {
+          "name": "Create",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const res = pm.response.json();",
+                  "if (res.success) pm.collectionVariables.set('institutionId', res.data.id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Nike Art Gallery\",\n  \"description\": \"One of the largest galleries in West Africa.\",\n  \"type\": \"GALLERY\",\n  \"address\": \"2 Elegushi Rd, Lekki Phase 1, Lagos\",\n  \"area\": \"ISLAND\",\n  \"lat\": 6.4419,\n  \"lng\": 3.4731,\n  \"tagIds\": [\"art\", \"gallery\", \"lekki\"],\n  \"openingHours\": { \"mon\": \"9am-6pm\" },\n  \"isPublished\": true\n}"
+            },
+            "url": "{{baseUrl}}/api/v1/admin/institutions"
+          }
+        },
+        {
+          "name": "Update",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"description\": \"Updated description.\"\n}"
+            },
+            "url": "{{baseUrl}}/api/v1/admin/institutions/{{institutionId}}"
+          }
+        },
+        {
+          "name": "Toggle Publish",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": "{{baseUrl}}/api/v1/admin/institutions/{{institutionId}}/publish"
+          }
+        },
+        {
+          "name": "Upload Image",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "image",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/admin/institutions/{{institutionId}}/images"
+          }
+        },
+        {
+          "name": "Soft Delete",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": "{{baseUrl}}/api/v1/admin/institutions/{{institutionId}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Admin - Users (Super Admin)",
+      "item": [
+        {
+          "name": "List Users",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": "{{baseUrl}}/api/v1/admin/users?page=1&limit=20"
+          }
+        },
+        {
+          "name": "Create User",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const res = pm.response.json();",
+                  "if (res.success) pm.collectionVariables.set('userId', res.data.id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fullName\": \"Curator One\",\n  \"email\": \"curator@artexplore.africa\",\n  \"password\": \"supersecret\",\n  \"role\": \"ADMIN\"\n}"
+            },
+            "url": "{{baseUrl}}/api/v1/admin/users"
+          }
+        },
+        {
+          "name": "Deactivate User",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": "{{baseUrl}}/api/v1/admin/users/{{userId}}/deactivate"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Admin - Audit & Dashboard",
+      "item": [
+        {
+          "name": "Audit Logs",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/admin/audit-logs?page=1&limit=20",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "admin",
+                "audit-logs"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "20"
+                },
+                {
+                  "key": "actorId",
+                  "value": "{{userId}}",
+                  "disabled": true
+                },
+                {
+                  "key": "action",
+                  "value": "CREATE",
+                  "disabled": true
+                },
+                {
+                  "key": "targetModel",
+                  "value": "INSTITUTION",
+                  "disabled": true
+                },
+                {
+                  "key": "from",
+                  "value": "2026-01-01T00:00:00Z",
+                  "disabled": true
+                },
+                {
+                  "key": "to",
+                  "value": "2026-12-31T23:59:59Z",
+                  "disabled": true
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Dashboard",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": "{{baseUrl}}/api/v1/admin/dashboard"
+          }
+        }
+      ]
+    },
+    {
+      "name": "SubCategories & Tags (Public)",
+      "item": [
+        {
+          "name": "List sub-categories",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/v1/subcategories"
+          }
+        },
+        {
+          "name": "List sub-categories by type",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/v1/subcategories?type=GALLERY"
+          }
+        },
+        {
+          "name": "List tags",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/v1/tags"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Submissions (User)",
+      "item": [
+        {
+          "name": "Submit institution",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": "{{baseUrl}}/api/v1/submissions",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Community Art Space\",\n  \"type\": \"CULTURAL_SPACE\",\n  \"address\": \"10 Mainland Rd, Yaba, Lagos\",\n  \"area\": \"MAINLAND\",\n  \"lat\": 6.5095,\n  \"lng\": 3.3711,\n  \"description\": \"A community-run space.\",\n  \"tagIds\": []\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const res = pm.response.json();",
+                  "if (res.success) pm.collectionVariables.set('submissionId', res.data.id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "My submissions",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": "{{baseUrl}}/api/v1/submissions/mine"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Admin - SubCategories",
+      "item": [
+        {
+          "name": "List",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": "{{baseUrl}}/api/v1/admin/subcategories"
+          }
+        },
+        {
+          "name": "Create",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": "{{baseUrl}}/api/v1/admin/subcategories",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Contemporary\",\n  \"type\": \"GALLERY\",\n  \"description\": \"Contemporary art galleries\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const res = pm.response.json();",
+                  "if (res.success) pm.collectionVariables.set('subCategoryId', res.data.id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Update",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": "{{baseUrl}}/api/v1/admin/subcategories/{{subCategoryId}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"description\": \"Updated description\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": "{{baseUrl}}/api/v1/admin/subcategories/{{subCategoryId}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Admin - Tags",
+      "item": [
+        {
+          "name": "List",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": "{{baseUrl}}/api/v1/admin/tags"
+          }
+        },
+        {
+          "name": "Create",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": "{{baseUrl}}/api/v1/admin/tags",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Abstract\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const res = pm.response.json();",
+                  "if (res.success) pm.collectionVariables.set('tagId', res.data.id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Update",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": "{{baseUrl}}/api/v1/admin/tags/{{tagId}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Abstract Art\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": "{{baseUrl}}/api/v1/admin/tags/{{tagId}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Admin - Exhibitions",
+      "item": [
+        {
+          "name": "Create",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": "{{baseUrl}}/api/v1/admin/institutions/{{institutionId}}/exhibitions",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Spring Showcase\",\n  \"date\": \"2026-07-01T00:00:00.000Z\",\n  \"endDate\": \"2026-08-01T00:00:00.000Z\",\n  \"time\": \"10:00 - 18:00\",\n  \"socialLink\": \"https://instagram.com/example\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const res = pm.response.json();",
+                  "if (res.success) pm.collectionVariables.set('exhibitionId', res.data.id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Update",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": "{{baseUrl}}/api/v1/admin/institutions/{{institutionId}}/exhibitions/{{exhibitionId}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Spring Showcase (extended)\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Upload image",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": "{{baseUrl}}/api/v1/admin/institutions/{{institutionId}}/exhibitions/{{exhibitionId}}/image",
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "image",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": "{{baseUrl}}/api/v1/admin/institutions/{{institutionId}}/exhibitions/{{exhibitionId}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Admin - Submissions",
+      "item": [
+        {
+          "name": "List pending",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": "{{baseUrl}}/api/v1/admin/submissions?status=PENDING"
+          }
+        },
+        {
+          "name": "Approve",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": "{{baseUrl}}/api/v1/admin/institutions/{{submissionId}}/approve"
+          }
+        },
+        {
+          "name": "Reject",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": "{{baseUrl}}/api/v1/admin/institutions/{{submissionId}}/reject",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reviewNote\": \"Please add more detail and a valid address.\"\n}"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
