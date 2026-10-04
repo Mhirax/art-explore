@@ -1,16 +1,77 @@
-// Variables
-$primary-color: #d97706;
-$primary-dark: #b45309;
-$secondary-color: #1f2937;
-$text-dark: #1f2937;
-$text-light: #6b7280;
-$bg-light: #f9fafb;
+// ─────────────────────────────────────────────────────────────
+// THEME — Art Explore brand palette.
+//
+// Source of truth: Art Explore Website Wireframes/
+//   brand_assets_art_explore/BRAND_GUIDE.md
+//
+// Deep Brown is the ground, not pure black: it is a warm,
+// earthen dark that reads as West African rather than generic
+// tech-dark. White type sits on it; Rust Red is the single
+// accent and is rationed deliberately.
+//
+// The guide forbids recolouring outside this palette and
+// forbids shadows and glows. Depth comes from warm tints of
+// the brown and from hairline rules.
+// ─────────────────────────────────────────────────────────────
+:root {
+  // Brand core
+  --brown:      #402820;   // primary surface
+  --rust:       #b83808;   // accent — links, actives, highlights
+  --ink:        #241812;   // deepest brown, for wells behind content
+  --paper:      #faf7f4;   // light surface
+  --white:      #ffffff;
+
+  // Warm darks, mixed from the brown rather than toward grey.
+  --brown-deep: #33201a;
+  --brown-lift: #4d322a;   // raised surface (cards)
+  --brown-edge: #5c3d33;   // hairline rules
+
+  // White at decreasing opacity, for type hierarchy.
+  --w-90:       rgba(255, 255, 255, 0.90);
+  --w-70:       rgba(255, 255, 255, 0.70);
+  --w-55:       rgba(255, 255, 255, 0.55);
+  --w-30:       rgba(255, 255, 255, 0.30);
+  --w-15:       rgba(255, 255, 255, 0.15);
+  --w-08:       rgba(255, 255, 255, 0.08);
+
+  // Type. Poppins is the brand web substitute for Canva Sans.
+  // Lato is reserved for the navbar logo lockup.
+  --font-logo:    'Lato', system-ui, sans-serif;
+  --font-display: 'Poppins', system-ui, sans-serif;
+  --font-body:    'Poppins', system-ui, sans-serif;
+
+  --ease:       cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out:   cubic-bezier(0.4, 0, 0.2, 1);
+
+  // ── Page measure ─────────────────────────────────────────
+  // Every section except the hero centres its content inside
+  // --page-max and keeps at least --gutter of air on each side.
+  //
+  // --page-pad does both jobs in one value: on a narrow screen it
+  // resolves to the gutter, and once the viewport is wider than
+  // --page-max it grows to the leftover half-width, which centres
+  // the content. Section backgrounds stay full-bleed because the
+  // padding is inside the section, not a max-width on it.
+  --page-max:   1400px;
+  --gutter:     clamp(20px, 4vw, 56px);
+  --page-pad:   max(var(--gutter), (100% - var(--page-max)) / 2);
+}
+
+// Mirrors for the pre-existing rules further down this file.
+$brown: #402820;
+$rust: #b83808;
 $white: #ffffff;
-$border-color: #e5e7eb;
-$shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-$shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-$shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-$transition: all 0.3s ease;
+$primary-color: #b83808;
+$primary-dark: #8f2b06;
+$secondary-color: #402820;
+$text-dark: #ffffff;
+$text-light: rgba(255, 255, 255, 0.7);
+$bg-light: #402820;
+$border-color: rgba(255, 255, 255, 0.15);
+$shadow-sm: none;
+$shadow-md: none;
+$shadow-lg: none;
+$transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
 // Global Reset
 *,
@@ -21,11 +82,40 @@ $transition: all 0.3s ease;
   box-sizing: border-box;
 }
 
+html {
+  background: var(--brown);
+}
+
 body {
-  font-family: "Red Hat Display", sans-serif;
-  color: $text-dark;
+  font-family: var(--font-body);
+  color: var(--white);
   line-height: 1.6;
-  background: $white;
+  background: var(--brown);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+// Scrollbar, so the black doesn't stop at the content edge.
+* {
+  scrollbar-color: var(--brown-edge) var(--brown-deep);
+}
+*::-webkit-scrollbar       { width: 10px; height: 10px; }
+*::-webkit-scrollbar-track { background: var(--brown-deep); }
+*::-webkit-scrollbar-thumb {
+  background: var(--brown-edge);
+  border: 2px solid var(--brown-deep);
+  border-radius: 10px;
+  &:hover { background: var(--w-30); }
+}
+
+::selection {
+  background: var(--rust);
+  color: var(--white);
+}
+
+.app {
+  background: var(--brown);
+  min-height: 100vh;
 }
 
 img {
@@ -221,4 +311,158 @@ img {
       font-size: 0.8rem;
     }
   }
+}
+// ─────────────────────────────────────────────────────────────
+// BRAND CARRY-OVER
+//
+// The directory section below the map still carries its original
+// light-theme stylesheet (ArtGalleryApp.scss, 510 lines). Until
+// that gets a proper pass, this block re-grounds it on the brand
+// palette so the page reads as one surface rather than a white
+// panel dropped on brown.
+//
+// This is a holding layer, not finished styling — it fixes ground,
+// type colour and borders only, and deliberately leaves layout
+// alone. The hero, districts, space-types and map sections are all
+// styled properly in their own files and are NOT covered here.
+// ─────────────────────────────────────────────────────────────
+
+.galleries {
+  background: var(--brown);
+  color: var(--white);
+  padding-left: var(--page-pad);
+  padding-right: var(--page-pad);
+}
+
+// Any surface that was white/near-white becomes a raised brown.
+.gallery-card,
+.card,
+.filter-row,
+.search-box,
+.category-tabs {
+  background: var(--brown-lift) !important;
+  border-color: var(--brown-edge) !important;
+  color: var(--white);
+  box-shadow: none !important;
+}
+
+.gallery-card {
+  border: 1px solid var(--brown-edge);
+  border-radius: 2px;
+  overflow: hidden;
+  transition: transform 0.45s var(--ease), border-color 0.45s var(--ease-out);
+
+  &:hover {
+    transform: translateY(-4px);
+    border-color: var(--rust);
+  }
+}
+
+// Card typography — brand fonts, white on brown.
+.card__name   { font-family: var(--font-display); color: var(--white); }
+.card__neighborhood,
+.card__address { color: var(--w-55); }
+.card__tag {
+  background: transparent;
+  border: 1px solid var(--brown-edge);
+  color: var(--w-70);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 10px;
+}
+
+// The initials block that stands in for a missing image. Until
+// the images column is populated this is what most cards show,
+// so it should look intentional rather than broken.
+.card__initials {
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--w-30);
+  letter-spacing: 0.04em;
+}
+
+.card__status {
+  font-family: var(--font-body);
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  border-radius: 2px;
+
+  &--open   { background: var(--rust);  color: var(--white); }
+  &--closed { background: var(--ink);   color: var(--w-55); }
+}
+
+// Section headings inside the carried-over blocks.
+.app__title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  color: var(--white);
+}
+.app__subtitle { color: var(--w-70); }
+.app__divider  { border: 0; border-top: 1px solid var(--brown-edge); }
+
+// Empty / loading states.
+.empty {
+  background: transparent;
+  color: var(--w-70);
+
+  &__heading { font-family: var(--font-display); color: var(--white); }
+  &__sub     { color: var(--w-55); }
+  &__retry {
+    background: transparent;
+    border: 1px solid var(--brown-edge);
+    color: var(--white);
+    padding: 12px 24px;
+    border-radius: 2px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-size: 11px;
+    cursor: pointer;
+    transition: border-color 0.35s var(--ease-out), background 0.35s var(--ease-out);
+
+    &:hover { border-color: var(--rust); background: var(--rust); }
+  }
+}
+
+// ── Footer ─────────────────────────────────────────────────
+.site-footer {
+  background: var(--ink);
+  border-top: 1px solid var(--brown-edge);
+  padding: clamp(48px, 8vh, 96px) var(--page-pad);
+}
+
+.site-footer__inner {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.site-footer__mark {
+  font-family: var(--font-logo);
+  font-weight: 900;
+  font-size: clamp(18px, 2vw, 22px);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--white);
+  margin: 0;
+
+  span { font-weight: 300; letter-spacing: 0.18em; }
+}
+
+.site-footer__line {
+  font-family: var(--font-body);
+  font-weight: 300;
+  color: var(--w-70);
+  margin: 0;
+  max-width: 48ch;
+}
+
+.site-footer__legal {
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--w-30);
+  margin: 0;
 }

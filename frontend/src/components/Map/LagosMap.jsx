@@ -1,19 +1,47 @@
 import "./LagosMap.scss";
 
+/**
+ * Map section header — 04 in the homepage sequence.
+ *
+ * Addresses the visitor at the moment they actually need the map:
+ * they know they want to go, they just don't know where to point
+ * the car. Copy is written to that, not to the technology.
+ */
 export default function MapSection() {
-
   return (
-    <section className="map-section">
-      <div className="container">
-        <div className="section-header">
-          <h2>
-            Geographical <span className="mapspan">Map Locations</span> in Nigeria.
-          </h2>
-          <p>
-            Discover art galleries co-ordinate and address location across
-            different region in lagos cities
-          </p>
-        </div>
+    <section className="map-section" id="map">
+      <div className="map-section__head">
+        <p className="map-section__eyebrow">
+          <span className="map-section__eyebrow-rule" aria-hidden="true" />
+          04 — The map
+        </p>
+
+        <h2 className="map-section__title">
+          Looking for
+          <br />
+          <em>directions?</em>
+        </h2>
+
+        <p className="map-section__lede">
+          Every gallery, museum and cultural space in Lagos, pinned with real
+          co-ordinates. Filter by side of the lagoon, tap a pin for the address,
+          then let your phone do the rest.
+        </p>
+
+        <ul className="map-section__hints">
+          <li>
+            <span>Island or Mainland</span>
+            Narrow the map to one side of the water.
+          </li>
+          <li>
+            <span>Tap a pin</span>
+            Address, opening hours and a route out.
+          </li>
+          <li>
+            <span>Overview</span>
+            Pull back to the whole city at any time.
+          </li>
+        </ul>
       </div>
     </section>
   );

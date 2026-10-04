@@ -1,0 +1,60 @@
+// ─────────────────────────────────────────────────────────────
+// /galleries — page header above the directory.
+//
+// Centred, on the same measure as the homepage sections, and in
+// the brand palette from :root (BRAND_GUIDE.md).
+// ─────────────────────────────────────────────────────────────
+
+.gp__head {
+  background: var(--brown);
+  padding: clamp(56px, 10vh, 120px) var(--page-pad) clamp(24px, 4vh, 44px);
+  text-align: center;
+}
+
+.gp__eyebrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--w-55);
+  margin: 0 0 clamp(16px, 2.5vh, 26px);
+}
+
+.gp__eyebrow-rule {
+  display: block;
+  width: clamp(28px, 5vw, 64px);
+  height: 1px;
+  background: var(--rust);
+}
+
+.gp__title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(2.1rem, 5.6vw, 4.4rem);
+  line-height: 1;
+  letter-spacing: -0.035em;
+  text-transform: uppercase;
+  color: var(--white);
+  margin: 0 0 clamp(14px, 2vh, 22px);
+}
+
+.gp__lede {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: clamp(0.95rem, 1.1vw, 1.05rem);
+  line-height: 1.7;
+  color: var(--w-70);
+  margin: 0 auto;
+  max-width: 52ch;
+}
+
+// The directory's own hero ("Search") duplicated this header, so
+// it is suppressed on this route.
+.gp__head + .galleries .app__hero {
+  display: none;
+}

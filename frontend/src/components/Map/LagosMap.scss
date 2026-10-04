@@ -1,83 +1,109 @@
+// ─────────────────────────────────────────────────────────────
+// MAP SECTION HEADER — "Looking for directions?"
+//
+// Previously #333 on white, which was invisible once the site
+// went dark. Now white on the deepest brown, set at display
+// scale to match the hero's weight.
+//
+// Palette and type from :root (BRAND_GUIDE.md). No shadows.
+// ─────────────────────────────────────────────────────────────
+
 .map-section {
-  background: white;
-  
+  background: var(--brown);
+  border-top: 1px solid var(--brown-edge);
+  padding: clamp(64px, 11vh, 140px) var(--page-pad) clamp(32px, 5vh, 56px);
+}
 
-  @media (max-width: 760px) {
-    padding-top: 24px;
+.map-section__head {
+  // Centring comes from the section's --page-pad; this block just
+  // needs to centre its own inline content.
+  text-align: center;
+}
+
+.map-section__eyebrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--w-55);
+  margin: 0 0 clamp(16px, 2.5vh, 26px);
+}
+
+.map-section__eyebrow-rule {
+  display: block;
+  width: clamp(28px, 5vw, 64px);
+  height: 1px;
+  background: var(--rust);
+}
+
+// Big and bold, in the hero's register — this is the second
+// largest piece of type on the page by design.
+.map-section__title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(2.4rem, 7vw, 5.5rem);
+  line-height: 0.96;
+  letter-spacing: -0.035em;
+  text-transform: uppercase;
+  color: var(--white);
+  margin: 0 0 clamp(18px, 3vh, 30px);
+
+  // "directions?" is the one rust word in the section.
+  em {
+    font-style: normal;
+    color: var(--rust);
   }
+}
 
-  @media (max-width: 400px) {
-    padding-top: 18px;
-  }
+.map-section__lede {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: clamp(0.95rem, 1.2vw, 1.15rem);
+  line-height: 1.7;
+  color: var(--w-70);
+  // Centred block: auto margins keep the measure narrow so the
+  // lede stays readable instead of running the full width.
+  margin: 0 auto;
+  max-width: 58ch;
+}
 
-  .section-header {
-text-align: center;
-    margin-bottom: 10px;
-   
-       
-    h2 {
-      font-size: 42px;
-      font-family: "Lobster", sans-serif;
-      margin-bottom: 10px;
-      color: #333;
-    }
-    .mapspan {
-      color: #d97706;
-    }
+// ── Usage hints ────────────────────────────────────────────
+// Three ruled columns telling the visitor what the controls do,
+// so the map isn't a puzzle on first contact.
+.map-section__hints {
+  list-style: none;
+  margin: clamp(32px, 5vh, 56px) 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr));
+  gap: 1px;
+  background: var(--brown-edge);
+  border-top: 1px solid var(--brown-edge);
+  border-bottom: 1px solid var(--brown-edge);
 
-    p {
-      color: #3a3838;
-      max-width: 600px;
-      margin: 0 auto;
-    }
-  }
-
-  .map-container {
-    border-radius: 16px;
-    overflow: hidden;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    margin-bottom: 40px;
-
-    iframe {
-      width: 100%;
-      height: 450px;
-      display: block;
-    }
-  }
-
-  .map-info {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 30px;
-    margin-bottom: 30px;
-
-    .info-card {
-      background: #f9fafb;
-      padding: 20px;
-      border-radius: 12px;
-      border-left: 4px solid #d97706;
-
-      h3 {
-        font-size: 18px;
-        margin-bottom: 8px;
-        color: #333;
-      }
-
-      p {
-        color: #666;
-        margin-bottom: 8px;
-      }
-
-      small {
-        color: #d97706;
-        font-size: 13px;
-      }
-    }
-  }
-
-  .map-note {
+  li {
+    background: var(--brown);
+    padding: clamp(18px, 2.4vw, 26px);
+    font-family: var(--font-body);
+    font-weight: 300;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: var(--w-55);
     text-align: center;
-    color: #999;
-    margin-top: 20px;
+
+    span {
+      display: block;
+      font-weight: 600;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--white);
+      margin-bottom: 8px;
+    }
   }
 }

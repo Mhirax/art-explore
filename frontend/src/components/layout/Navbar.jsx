@@ -104,17 +104,11 @@ export default function Navbar() {
             </a>
           </li>
           
-          {/* Galleries link - scrolls to GalleryGrid component */}
+          {/* Galleries - its own route, not a scroll target */}
           <li>
-            <a
-              href="#galleries"
-              onClick={(e) => {
-                e.preventDefault();         
-                scrollToSection("galleries"); 
-              }}
-            >
+            <Link to="/galleries" onClick={() => setIsMenuOpen(false)}>
               Galleries
-            </a>
+            </Link>
           </li>
 
           <li>

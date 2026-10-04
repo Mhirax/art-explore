@@ -1,0 +1,251 @@
+// ─────────────────────────────────────────────────────────────
+// POPULAR REVIEWS
+//
+// Quotes, so the type leads. Cards are brown wells with a hairline
+// and a large rust quote mark; the whole card lifts on hover.
+//
+// Palette and type from :root (BRAND_GUIDE.md). No shadows.
+// ─────────────────────────────────────────────────────────────
+
+.pr {
+  background: var(--brown);
+  border-top: 1px solid var(--brown-edge);
+  padding: clamp(64px, 11vh, 140px) var(--page-pad);
+}
+
+.pr__state {
+  font-family: var(--font-body);
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--w-55);
+  margin: 0;
+}
+
+// ── Header ─────────────────────────────────────────────────
+.pr__head {
+  max-width: 56ch;
+  margin: 0 auto clamp(44px, 7vh, 80px);
+  text-align: center;
+}
+
+.pr__eyebrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--w-55);
+  margin: 0 0 clamp(16px, 2.5vh, 26px);
+}
+
+.pr__eyebrow-rule {
+  display: block;
+  width: clamp(28px, 5vw, 64px);
+  height: 1px;
+  background: var(--rust);
+}
+
+.pr__title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(2.2rem, 6vw, 4.6rem);
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+  text-transform: uppercase;
+  color: var(--white);
+  margin: 0 0 clamp(14px, 2vh, 22px);
+}
+
+.pr__lede {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: clamp(0.95rem, 1.1vw, 1.05rem);
+  line-height: 1.7;
+  color: var(--w-70);
+  margin: 0 auto;
+  max-width: 52ch;
+}
+
+// ── Grid ───────────────────────────────────────────────────
+.pr__grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  gap: clamp(16px, 2vw, 24px);
+}
+
+.pr__card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 24px;
+  padding: clamp(26px, 3vw, 38px);
+  background: var(--brown-lift);
+  border: 1px solid var(--brown-edge);
+  border-radius: 2px;
+  overflow: hidden;
+  transition: transform 0.45s var(--ease),
+              border-color 0.45s var(--ease-out);
+
+  // Oversized quote mark, bled off the top-right corner.
+  &::before {
+    content: '\\201C';
+    position: absolute;
+    top: -0.34em;
+    right: 0.06em;
+    font-family: var(--font-display);
+    font-size: 9rem;
+    line-height: 1;
+    color: var(--rust);
+    opacity: 0.14;
+    pointer-events: none;
+    transition: opacity 0.45s var(--ease-out);
+  }
+
+  &:hover {
+    transform: translateY(-5px);
+    border-color: var(--rust);
+    &::before { opacity: 0.26; }
+  }
+}
+
+.pr__quote {
+  margin: 0;
+}
+
+// ── Stars ──────────────────────────────────────────────────
+.pr__stars {
+  display: inline-flex;
+  gap: 3px;
+  margin-bottom: 16px;
+  font-size: 13px;
+  line-height: 1;
+}
+
+.pr__star {
+  color: var(--w-15);
+
+  &--on { color: var(--rust); }
+}
+
+.pr__comment {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: clamp(1rem, 1.3vw, 1.15rem);
+  line-height: 1.6;
+  color: var(--w-90);
+  margin: 0;
+  text-wrap: pretty;
+
+  // A rating with no words — set quieter and italic so it reads as
+  // a note rather than a quotation.
+  &--bare {
+    font-style: italic;
+    color: var(--w-55);
+    font-size: 0.95rem;
+  }
+}
+
+// ── Attribution ────────────────────────────────────────────
+.pr__by {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding-top: 18px;
+  border-top: 1px solid var(--brown-edge);
+}
+
+.pr__venue {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 0.95rem;
+  letter-spacing: -0.005em;
+  color: var(--white);
+}
+
+.pr__where {
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--w-55);
+}
+
+// ── Empty state ────────────────────────────────────────────
+.pr__empty {
+  text-align: center;
+  padding: clamp(40px, 7vh, 80px) clamp(20px, 4vw, 40px);
+  border: 1px solid var(--brown-edge);
+  border-radius: 2px;
+  background: var(--brown-lift);
+}
+
+.pr__empty-head {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(1.1rem, 1.8vw, 1.4rem);
+  color: var(--white);
+  margin: 0 0 10px;
+}
+
+.pr__empty-sub {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--w-55);
+  margin: 0 auto 26px;
+  max-width: 44ch;
+}
+
+.pr__empty-cta {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  padding: 14px 28px;
+  border: 1px solid var(--brown-edge);
+  border-radius: 2px;
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--white);
+  transition: border-color 0.4s var(--ease-out);
+
+  // Same rust wipe as every other button on the page.
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--rust);
+    transform: translateY(101%);
+    transition: transform 0.5s var(--ease);
+    z-index: -1;
+  }
+
+  &:hover {
+    border-color: var(--rust);
+    &::before { transform: translateY(0); }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pr__card,
+  .pr__card::before,
+  .pr__empty-cta,
+  .pr__empty-cta::before { transition: none; }
+  .pr__card:hover { transform: none; }
+}
