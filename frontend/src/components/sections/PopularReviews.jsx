@@ -42,7 +42,7 @@ export default function PopularReviews() {
           <span className="pr__eyebrow-rule" aria-hidden="true" />
           03 — From visitors
         </p>
-        <h2 className="pr__title">Popular Reviews</h2>
+        <h2 className="pr__title">Popular Galleries Review</h2>
         <p className="pr__lede">
           What people actually thought after turning up — the rooms worth the
           traffic, in their words.

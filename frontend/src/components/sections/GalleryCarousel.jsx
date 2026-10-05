@@ -16,9 +16,9 @@ import "./GalleryCarousel.scss";
  */
 const PREFERRED = [
   "Nike Art Gallery",
-  "Terra Kulture",
+  "Guest Artists Space Foundation (GAS)",
   "Rele Gallery",
-  "Omenka Gallery",
+  "African Artists Foundation",
   "National Museum Lagos",
   "Signature Beyond",
 ];
@@ -136,13 +136,18 @@ export default function GalleryCarousel() {
           ))}
         </div>
 
-        {/* Caption is outside the track so it doesn't slide with it. */}
-        <div className="gc__caption">
+        {/* Overlay sits outside the track so it doesn't slide with
+            it, and is keyed on the index so its contents re-animate
+            on each change. */}
+        <div className="gc__overlay" key={current.id}>
           <p className="gc__kicker">
             {TYPE_LABEL[current.type] ?? "Space"}
             {current.subArea ? ` · ${current.subArea}` : ""}
           </p>
           <h3 className="gc__name">{current.name}</h3>
+          {current.description && (
+            <p className="gc__desc">{current.description}</p>
+          )}
           <Link className="gc__link" to="/galleries">
             See it in the directory <Arrow dir="next" />
           </Link>

@@ -30,9 +30,9 @@
   margin: 0;
   // A fixed aspect keeps the frame from jumping as images of
   // different proportions load in.
-  aspect-ratio: 16 / 8;
-  min-height: 260px;
-  max-height: 68vh;
+  aspect-ratio: 16 / 9;
+  min-height: 320px;
+  max-height: 72vh;
   overflow: hidden;
 
   @media (max-width: 600px) {
@@ -50,21 +50,58 @@
   filter: saturate(0.92) brightness(0.88) contrast(1.04);
 }
 
-// ── Caption ────────────────────────────────────────────────
-.gc__caption {
+// ── Overlay ────────────────────────────────────────────────
+// Carries the venue's own description, so the scrim has to run
+// deeper and darker than a bare name would need — body copy over
+// a photograph needs the contrast.
+.gc__overlay {
   position: absolute;
   left: 0;
   right: 0;
   bottom: 0;
-  padding: clamp(40px, 7vw, 72px) clamp(20px, 3vw, 40px) clamp(20px, 2.6vw, 32px);
+  padding: clamp(72px, 11vw, 140px) clamp(20px, 3vw, 44px) clamp(22px, 2.8vw, 36px);
   // Scrim built from the brand ink, not black, so it stays warm.
   background: linear-gradient(
     to top,
-    rgba(36, 24, 18, 0.95) 0%,
-    rgba(36, 24, 18, 0.72) 45%,
+    rgba(36, 24, 18, 0.97) 0%,
+    rgba(36, 24, 18, 0.88) 38%,
+    rgba(36, 24, 18, 0.55) 68%,
     transparent 100%
   );
   pointer-events: none;
+
+  // Contents rise in on each slide change (the element is keyed on
+  // the venue id, so React remounts it and the animation replays).
+  animation: gcOverlayIn 0.7s var(--ease) both;
+}
+
+@keyframes gcOverlayIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+// Description — capped measure so it never runs the full width of
+// a wide frame, and clamped to three lines so a long entry cannot
+// push the name off the image.
+.gc__desc {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: clamp(0.875rem, 1.05vw, 1rem);
+  line-height: 1.6;
+  color: var(--w-70);
+  margin: 0 0 16px;
+  max-width: 62ch;
+  text-wrap: pretty;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+
+  @media (max-width: 600px) {
+    -webkit-line-clamp: 2;
+    margin-bottom: 14px;
+  }
 }
 
 .gc__kicker {
@@ -84,7 +121,7 @@
   line-height: 1.05;
   letter-spacing: -0.03em;
   color: var(--white);
-  margin: 0 0 12px;
+  margin: 0 0 10px;
 }
 
 .gc__link {
@@ -181,6 +218,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .gc__overlay { animation: none; }
+
   .gc__track,
   .gc__arrow,
   .gc__arrow::before,

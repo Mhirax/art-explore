@@ -8,7 +8,12 @@
 -- carousel renders nothing, because it skips venues with no photo.
 --
 -- This script populates `images` for six well-known venues so the
--- carousel can be seen working in local development.
+-- carousel can be seen working in local development. All six have a
+-- description in the seed data, which the carousel overlay displays.
+--
+-- Every URL below was checked with curl and returned 200. Note that
+-- the SMO Contemporary Art URL in galleries.js is dead (400), so that
+-- venue is not included.
 --
 -- THESE ARE HOTLINKED THIRD-PARTY URLS, not owned assets. They were
 -- already committed in the repo (frontend/src/data/galleries.js and the
@@ -35,16 +40,16 @@ UPDATE "Institution" SET images = ARRAY[
 ] WHERE name = 'Nike Art Gallery';
 
 UPDATE "Institution" SET images = ARRAY[
-  'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgbAIluUeGJpVsBlajHVi4Q7zZwTaGO4QZLUZDkKOz91fkCLqculuZkZxsXWGK5lcO4CPa_sPJHS6PHXCxHEwuts9Zk1Tv6Kg8r989a00nNW0wH6R8JbbytNhDkqGljEHc5GzI6BQG9ex8j/s1600/Terra+kulture+lagos.JPG'
-] WHERE name = 'Terra Kulture';
+  'https://www.guestartistsspace.com/Portals/0/EasyDNNnews/759/img-GAS-lagos-.png'
+] WHERE name = 'Guest Artists Space Foundation (GAS)';
 
 UPDATE "Institution" SET images = ARRAY[
   'https://sumellist.com/wp-content/uploads/2023/02/Rele_New_Gallery_Day_1-112.jpg'
 ] WHERE name = 'Rele Gallery';
 
 UPDATE "Institution" SET images = ARRAY[
-  'https://gallery.omenka.net/wp-content/uploads/2022/08/Duke-Asidere-The-Artist-and-His-Muse-2014-copy.png'
-] WHERE name = 'Omenka Gallery';
+  'https://africanartists.org/wp-content/uploads/Installations-Coffi-28-scaled.jpg'
+] WHERE name = 'African Artists Foundation';
 
 UPDATE "Institution" SET images = ARRAY[
   'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/09/2d/c9/c2/the-national-museum.jpg?w=1200&h=-1&s=1'
