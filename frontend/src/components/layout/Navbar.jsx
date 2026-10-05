@@ -111,12 +111,6 @@ export default function Navbar() {
             </Link>
           </li>
 
-          <li>
-            <Link to="/submit" onClick={() => setIsMenuOpen(false)}>
-              Submit a Gallery
-            </Link>
-          </li>
-
           {user ? (
             <li className="nav-auth">
               <span className="nav-user">{user.fullName}</span>

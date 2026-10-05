@@ -1,3 +1,4 @@
+import GalleryCarousel from "./GalleryCarousel.jsx";
 import { usePopularReviews } from "../../hooks/usePopularReviews";
 import "./PopularReviews.scss";
 
@@ -34,14 +35,6 @@ const AREA_LABEL = { ISLAND: "Island", MAINLAND: "Mainland", OTHER: "Lagos" };
 export default function PopularReviews() {
   const { items, loading, error } = usePopularReviews({ limit: 4 });
 
-  if (loading) {
-    return (
-      <section className="pr" id="reviews">
-        <p className="pr__state">Gathering reviews…</p>
-      </section>
-    );
-  }
-
   return (
     <section className="pr" id="reviews" aria-label="Popular reviews">
       <header className="pr__head">
@@ -56,7 +49,11 @@ export default function PopularReviews() {
         </p>
       </header>
 
-      {error ? (
+      <GalleryCarousel />
+
+      {loading ? (
+        <p className="pr__state">Gathering reviews…</p>
+      ) : error ? (
         <p className="pr__state">Couldn’t load reviews — {error}</p>
       ) : items.length === 0 ? (
         // Honest empty state. Nothing is invented to fill the grid.
