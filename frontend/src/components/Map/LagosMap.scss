@@ -20,27 +20,6 @@
   text-align: center;
 }
 
-.map-section__eyebrow {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
-  font-family: var(--font-body);
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.26em;
-  text-transform: uppercase;
-  color: var(--w-55);
-  margin: 0 0 clamp(16px, 2.5vh, 26px);
-}
-
-.map-section__eyebrow-rule {
-  display: block;
-  width: clamp(28px, 5vw, 64px);
-  height: 1px;
-  background: var(--rust);
-}
-
 // Big and bold, in the hero's register — this is the second
 // largest piece of type on the page by design.
 .map-section__title {

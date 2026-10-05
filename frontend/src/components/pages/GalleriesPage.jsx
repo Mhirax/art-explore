@@ -23,10 +23,6 @@ export default function GalleriesPage() {
       <Navbar />
 
       <header className="gp__head">
-        <p className="gp__eyebrow">
-          <span className="gp__eyebrow-rule" aria-hidden="true" />
-          The directory
-        </p>
         <h1 className="gp__title">Every space, in one list.</h1>
         <p className="gp__lede">
           Search by name, filter by district or kind of space, and sort the whole

@@ -14,17 +14,23 @@
 // the brown and from hairline rules.
 // ─────────────────────────────────────────────────────────────
 :root {
-  // Brand core
-  --brown:      #402820;   // primary surface
+  // Ground is black. The brown that BRAND_GUIDE.md specifies as the
+  // primary surface is kept only as the accent's companion — Rust
+  // Red still carries the brand on a black field.
+  //
+  // The token names stay as they are so every stylesheet keeps
+  // working; only their values changed. Rename them in a later pass.
+  --brown:      #000000;   // primary surface — now black
   --rust:       #b83808;   // accent — links, actives, highlights
-  --ink:        #241812;   // deepest brown, for wells behind content
+  --ink:        #000000;   // deepest ground
   --paper:      #faf7f4;   // light surface
   --white:      #ffffff;
 
-  // Warm darks, mixed from the brown rather than toward grey.
-  --brown-deep: #33201a;
-  --brown-lift: #4d322a;   // raised surface (cards)
-  --brown-edge: #5c3d33;   // hairline rules
+  // Near-blacks. Cards need to separate from the ground or the
+  // whole page flattens, so raised surfaces lift a little.
+  --brown-deep: #000000;
+  --brown-lift: #121212;   // raised surface (cards)
+  --brown-edge: #2b2b2b;   // hairline rules
 
   // White at decreasing opacity, for type hierarchy.
   --w-90:       rgba(255, 255, 255, 0.90);
@@ -58,15 +64,15 @@
 }
 
 // Mirrors for the pre-existing rules further down this file.
-$brown: #402820;
+$brown: #000000;
 $rust: #b83808;
 $white: #ffffff;
 $primary-color: #b83808;
 $primary-dark: #8f2b06;
-$secondary-color: #402820;
+$secondary-color: #000000;
 $text-dark: #ffffff;
 $text-light: rgba(255, 255, 255, 0.7);
-$bg-light: #402820;
+$bg-light: #000000;
 $border-color: rgba(255, 255, 255, 0.15);
 $shadow-sm: none;
 $shadow-md: none;
@@ -432,10 +438,30 @@ img {
   padding: clamp(48px, 8vh, 96px) var(--page-pad);
 }
 
+// Mark, strapline and legal line sit on one row rather than stacked
+// — three short pieces of text in a column read as a broken list.
 .site-footer__inner {
   display: flex;
-  flex-direction: column;
-  gap: 14px;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: clamp(16px, 3vw, 40px);
+}
+
+.site-footer__mark  { flex: 0 0 auto; }
+.site-footer__line  { flex: 1 1 280px; }
+.site-footer__legal { flex: 0 0 auto; margin-left: auto; }
+
+// Below the wrap point they stack, but tightly and left-aligned
+// rather than with the row's gap between them.
+@media (max-width: 680px) {
+  .site-footer__inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .site-footer__legal { margin-left: 0; }
 }
 
 .site-footer__mark {

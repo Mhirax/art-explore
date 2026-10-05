@@ -11,27 +11,6 @@
   text-align: center;
 }
 
-.gp__eyebrow {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
-  font-family: var(--font-body);
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.26em;
-  text-transform: uppercase;
-  color: var(--w-55);
-  margin: 0 0 clamp(16px, 2.5vh, 26px);
-}
-
-.gp__eyebrow-rule {
-  display: block;
-  width: clamp(28px, 5vw, 64px);
-  height: 1px;
-  background: var(--rust);
-}
-
 .gp__title {
   font-family: var(--font-display);
   font-weight: 600;

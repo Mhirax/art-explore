@@ -308,7 +308,7 @@ const MapView = () => {
         },
         paint: {
           'text-color':      '#6ee7a0',
-          'text-halo-color': 'rgba(36,24,18,0.9)',
+          'text-halo-color': 'rgba(0, 0, 0,0.9)',
           'text-halo-width': 2,
         },
       });
@@ -342,7 +342,7 @@ const MapView = () => {
         },
         paint: {
           'text-color':      'rgba(255,255,255,0.88)',
-          'text-halo-color': 'rgba(36,24,18,0.92)',
+          'text-halo-color': 'rgba(0, 0, 0,0.92)',
           'text-halo-width': 1.5,
           'text-opacity':    ['interpolate', ['linear'], ['zoom'], 12, 0, 13, 1],
         },
@@ -378,12 +378,12 @@ const MapView = () => {
       map.addLayer({
         id: 'island-label', type: 'symbol', source: 'island-region', maxzoom: 11,
         layout: { 'text-field': 'ISLAND',   'text-size': 12, 'text-letter-spacing': 0.2, 'text-font': ['Open Sans SemiBold', 'Arial Unicode MS Bold'] },
-        paint:  { 'text-color': '#7fb0ff', 'text-halo-color': 'rgba(36,24,18,0.9)', 'text-halo-width': 2 },
+        paint:  { 'text-color': '#7fb0ff', 'text-halo-color': 'rgba(0, 0, 0,0.9)', 'text-halo-width': 2 },
       });
       map.addLayer({
         id: 'mainland-label', type: 'symbol', source: 'mainland-region', maxzoom: 11,
         layout: { 'text-field': 'MAINLAND', 'text-size': 12, 'text-letter-spacing': 0.2, 'text-font': ['Open Sans SemiBold', 'Arial Unicode MS Bold'] },
-        paint:  { 'text-color': '#e89a52',  'text-halo-color': 'rgba(36,24,18,0.9)', 'text-halo-width': 2 },
+        paint:  { 'text-color': '#e89a52',  'text-halo-color': 'rgba(0, 0, 0,0.9)', 'text-halo-width': 2 },
       });
 
       // 5 ── Gallery pins ────────────────────────────────────
@@ -420,7 +420,7 @@ const MapView = () => {
         },
         paint: {
           'text-color':      '#ffffff',
-          'text-halo-color': 'rgba(36,24,18,0.95)',
+          'text-halo-color': 'rgba(0, 0, 0,0.95)',
           'text-halo-width': 2.5,
           'text-opacity':    ['interpolate', ['linear'], ['zoom'], 12, 0, 13, 1],
         },
@@ -502,7 +502,12 @@ const MapView = () => {
         </button>
       </div>
 
-      <div ref={mapContainer} className={styles.mapContainer} />
+      {/* Frame sits between the black page and the dark basemap so
+          the map reads as a distinct surface rather than dissolving
+          into the background. */}
+      <div className={styles.mapFrame}>
+        <div ref={mapContainer} className={styles.mapContainer} />
+      </div>
 
       <LegendPanel
         activeLayers={activeLayers}

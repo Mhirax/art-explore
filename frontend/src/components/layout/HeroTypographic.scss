@@ -42,29 +42,6 @@ $ticker-h: 64px;
   padding: clamp(36px, 6vh, 80px) clamp(20px, 4vw, 56px) clamp(28px, 4vh, 48px);
 }
 
-.ht__eyebrow {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  font-family: var(--font-body);
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.26em;
-  text-transform: uppercase;
-  color: var(--w-55);
-  margin-bottom: clamp(18px, 3vh, 34px);
-  animation: htFade 0.8s var(--ease) both;
-}
-
-.ht__eyebrow-rule {
-  display: block;
-  width: clamp(28px, 5vw, 64px);
-  height: 1px;
-  background: var(--rust);
-  transform-origin: left;
-  animation: htRule 0.9s var(--ease) 0.1s both;
-}
-
 // The headline. Set as large as the viewport allows, tight
 // leading, tight tracking — this is the whole layout.
 .ht__headline {
@@ -259,17 +236,41 @@ $ticker-h: 64px;
   .ht__meta {
     flex-direction: column;
     align-items: stretch;
+    // Stacked, these are one unit — the desktop gap is horizontal
+    // breathing room and reads as a hole once they sit in a column.
+    gap: 14px;
+    margin-top: clamp(18px, 2.6vh, 26px);
+    padding-top: 18px;
   }
-  .ht__cta { width: 100%; }
-  .ht__btn { flex: 1 1 auto; justify-content: center; }
+
+  .ht__desc {
+    font-size: 0.95rem;
+    line-height: 1.55;
+  }
+
+  .ht__cta { width: 100%; gap: 10px; }
+  .ht__btn { flex: 1 1 auto; justify-content: center; padding: 14px 20px; }
+}
+
+// Tighter still on true phone widths, so the headline, the line of
+// description and both buttons are visible together on open.
+@media (max-width: 720px) {
+  .ht__meta {
+    gap: 10px;
+    margin-top: 16px;
+    padding-top: 14px;
+  }
+
+  .ht__inner {
+    padding-top: clamp(24px, 4vh, 40px);
+    padding-bottom: clamp(20px, 3vh, 32px);
+  }
 }
 
 // ── Reduced motion ─────────────────────────────────────────
 // Everything resolves to its end state; nothing loops.
 @media (prefers-reduced-motion: reduce) {
   .ht__line-inner,
-  .ht__eyebrow,
-  .ht__eyebrow-rule,
   .ht__meta { animation: none; }
 
   .ht__ticker-track { animation: none; }

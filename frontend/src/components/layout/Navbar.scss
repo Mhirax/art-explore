@@ -37,34 +37,28 @@
   }
 
   // ── Logo ───────────────────────────────────────────────────
+  // Real wordmark asset rather than set type. Height-driven so it
+  // scales with the bar; width follows the 480x136 aspect.
   .logo {
-    font-family: var(--font-logo);
-    font-size: clamp(19px, 2vw, 23px);
-    font-weight: 900;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--white);
-    text-decoration: none;
     display: inline-flex;
-    align-items: baseline;
-    gap: 0.1em;
-    transition: letter-spacing 0.45s var(--ease);
+    align-items: center;
+    text-decoration: none;
+    line-height: 0;
+  }
 
-    // "Explore" is the lighter half — contrast by weight, not hue.
-    .explore {
-      color: var(--white);
-      font-weight: 300;
-      letter-spacing: 0.18em;
-    }
+  .logo__img {
+    height: clamp(30px, 3.4vw, 42px);
+    width: auto;
+    display: block;
+    transition: opacity 0.3s var(--ease-out), transform 0.45s var(--ease);
 
     &:hover {
-      letter-spacing: 0.2em;
+      opacity: 0.82;
+      transform: scale(1.02);
     }
 
     @media (max-width: 480px) {
-      font-size: 17px;
-      letter-spacing: 0.1em;
-      &:hover { letter-spacing: 0.13em; }
+      height: 26px;
     }
   }
 

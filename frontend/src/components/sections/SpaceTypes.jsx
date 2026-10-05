@@ -100,10 +100,6 @@ export default function SpaceTypes() {
   return (
     <section className="st" id="types" aria-label="Browse by kind of space">
       <header className="st__head">
-        <p className="st__eyebrow">
-          <span className="st__eyebrow-rule" aria-hidden="true" />
-          02 — What kind of space
-        </p>
         <h2 className="st__title">Not everything with art on the wall is a gallery.</h2>
         <p className="st__lede">
           {total} spaces, sorted by what they actually are — because it changes whether

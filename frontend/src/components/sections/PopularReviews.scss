@@ -29,27 +29,6 @@
   text-align: center;
 }
 
-.pr__eyebrow {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
-  font-family: var(--font-body);
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.26em;
-  text-transform: uppercase;
-  color: var(--w-55);
-  margin: 0 0 clamp(16px, 2.5vh, 26px);
-}
-
-.pr__eyebrow-rule {
-  display: block;
-  width: clamp(28px, 5vw, 64px);
-  height: 1px;
-  background: var(--rust);
-}
-
 .pr__title {
   font-family: var(--font-display);
   font-weight: 600;
@@ -155,10 +134,15 @@
 }
 
 // ── Attribution ────────────────────────────────────────────
+// Venue and location on one line, not stacked — two short labels in
+// a column read as a list of one-word rows.
 .pr__by {
   display: flex;
-  flex-direction: column;
-  gap: 5px;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 6px 14px;
   padding-top: 18px;
   border-top: 1px solid var(--brown-edge);
 }

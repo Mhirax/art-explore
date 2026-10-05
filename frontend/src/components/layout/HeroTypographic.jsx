@@ -46,11 +46,6 @@ export default function HeroTypographic() {
           is subordinate to it.
       ══════════════════════════════════════════════════════ */}
       <div className="ht__inner">
-        <p className="ht__eyebrow">
-          <span className="ht__eyebrow-rule" aria-hidden="true" />
-          01 — Lagos Art District
-        </p>
-
         <h1 className="ht__headline">
           {HEADLINE.map((line, i) => (
             // Each line gets a clipping mask so the text can slide

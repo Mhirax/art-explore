@@ -11,11 +11,6 @@ export default function MapSection() {
   return (
     <section className="map-section" id="map">
       <div className="map-section__head">
-        <p className="map-section__eyebrow">
-          <span className="map-section__eyebrow-rule" aria-hidden="true" />
-          04 — The map
-        </p>
-
         <h2 className="map-section__title">
           Looking for
           <br />
