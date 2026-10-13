@@ -57,15 +57,22 @@ export default function Navbar() {
     <nav className="navbar" ref={navRef}>
       <div className="container">
         {/* Logo - scrolls to home when clicked */}
-        <a 
-          href="#home" 
+        <a
+          href="#home"
           className="logo"
+          aria-label="Art Explore — home"
           onClick={(e) => {
-            e.preventDefault();  
-            scrollToSection("home");  
+            e.preventDefault();
+            scrollToSection("home");
           }}
         >
-          Art<span className="explore">Explore</span>
+          <img
+            src="/brand/artexplorelogo.png"
+            alt="Art Explore"
+            className="logo__img"
+            width="480"
+            height="136"
+          />
         </a>
 
         {/* Mobile menu button - unchanged */}
@@ -104,22 +111,10 @@ export default function Navbar() {
             </a>
           </li>
           
-          {/* Galleries link - scrolls to GalleryGrid component */}
+          {/* Galleries - its own route, not a scroll target */}
           <li>
-            <a
-              href="#galleries"
-              onClick={(e) => {
-                e.preventDefault();         
-                scrollToSection("galleries"); 
-              }}
-            >
+            <Link to="/galleries" onClick={() => setIsMenuOpen(false)}>
               Galleries
-            </a>
-          </li>
-
-          <li>
-            <Link to="/submit" onClick={() => setIsMenuOpen(false)}>
-              Submit a Gallery
             </Link>
           </li>
 

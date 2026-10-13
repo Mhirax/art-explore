@@ -1,0 +1,228 @@
+// ─────────────────────────────────────────────────────────────
+// GALLERY CAROUSEL — image slider inside Popular Reviews.
+//
+// One wide frame, caption sitting over the bottom of the image on
+// a warm scrim, arrows and dots beneath. Palette and type from
+// :root (BRAND_GUIDE.md); no shadows.
+// ─────────────────────────────────────────────────────────────
+
+.gc {
+  margin-bottom: clamp(44px, 7vh, 80px);
+}
+
+.gc__viewport {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--brown-edge);
+  border-radius: 2px;
+  background: var(--brown-deep);
+}
+
+.gc__track {
+  display: flex;
+  // Transform is set inline from the active index.
+  transition: transform 0.75s var(--ease);
+  will-change: transform;
+}
+
+.gc__slide {
+  flex: 0 0 100%;
+  margin: 0;
+  // A fixed aspect keeps the frame from jumping as images of
+  // different proportions load in.
+  aspect-ratio: 16 / 9;
+  min-height: 320px;
+  max-height: 72vh;
+  overflow: hidden;
+
+  @media (max-width: 600px) {
+    aspect-ratio: 4 / 3;
+    min-height: 220px;
+  }
+}
+
+.gc__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  // Slight warm grade so photographs from a dozen different
+  // sources read as one set against the brown.
+  filter: saturate(0.92) brightness(0.88) contrast(1.04);
+}
+
+// ── Overlay ────────────────────────────────────────────────
+// Carries the venue's own description, so the scrim has to run
+// deeper and darker than a bare name would need — body copy over
+// a photograph needs the contrast.
+.gc__overlay {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: clamp(72px, 11vw, 140px) clamp(20px, 3vw, 44px) clamp(22px, 2.8vw, 36px);
+  // Scrim built from the brand ink, not black, so it stays warm.
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.97) 0%,
+    rgba(0, 0, 0, 0.88) 38%,
+    rgba(0, 0, 0, 0.55) 68%,
+    transparent 100%
+  );
+  pointer-events: none;
+
+  // Contents rise in on each slide change (the element is keyed on
+  // the venue id, so React remounts it and the animation replays).
+  animation: gcOverlayIn 0.7s var(--ease) both;
+}
+
+@keyframes gcOverlayIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+// Description — capped measure so it never runs the full width of
+// a wide frame, and clamped to three lines so a long entry cannot
+// push the name off the image.
+.gc__desc {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: clamp(0.875rem, 1.05vw, 1rem);
+  line-height: 1.6;
+  color: var(--w-70);
+  margin: 0 0 16px;
+  max-width: 62ch;
+  text-wrap: pretty;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+
+  @media (max-width: 600px) {
+    -webkit-line-clamp: 2;
+    margin-bottom: 14px;
+  }
+}
+
+.gc__kicker {
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--rust);
+  margin: 0 0 8px;
+}
+
+.gc__name {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(1.4rem, 3.4vw, 2.6rem);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  color: var(--white);
+  margin: 0 0 10px;
+}
+
+.gc__link {
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--w-70);
+  transition: color 0.3s var(--ease-out);
+
+  svg { transition: transform 0.35s var(--ease); }
+
+  &:hover {
+    color: var(--white);
+    svg { transform: translateX(4px); }
+  }
+}
+
+// ── Controls ───────────────────────────────────────────────
+.gc__controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(14px, 2vw, 24px);
+  margin-top: 18px;
+}
+
+.gc__arrow {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  border: 1px solid var(--brown-edge);
+  border-radius: 2px;
+  background: transparent;
+  color: var(--w-70);
+  cursor: pointer;
+  transition: color 0.35s var(--ease-out),
+              border-color 0.35s var(--ease-out);
+
+  // Same rust wipe as every other button on the site.
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--rust);
+    transform: translateY(101%);
+    transition: transform 0.45s var(--ease);
+    z-index: -1;
+  }
+
+  &:hover {
+    color: var(--white);
+    border-color: var(--rust);
+    &::before { transform: translateY(0); }
+  }
+}
+
+.gc__dots {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+// Dots are bars: the active one stretches rather than just
+// changing colour, which reads better at this scale.
+.gc__dot {
+  width: 22px;
+  height: 2px;
+  padding: 0;
+  border: 0;
+  border-radius: 2px;
+  background: var(--w-15);
+  cursor: pointer;
+  transition: background 0.35s var(--ease-out), width 0.45s var(--ease);
+
+  &:hover { background: var(--w-30); }
+
+  &--on {
+    width: 44px;
+    background: var(--rust);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gc__overlay { animation: none; }
+
+  .gc__track,
+  .gc__arrow,
+  .gc__arrow::before,
+  .gc__dot,
+  .gc__link svg { transition: none; }
+}

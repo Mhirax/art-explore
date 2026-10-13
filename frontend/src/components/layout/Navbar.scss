@@ -1,134 +1,227 @@
+// ─────────────────────────────────────────────────────────────
+// NAVBAR — black ground, white type, Lato throughout.
+//
+// Palette comes from :root in App.scss. No colour is declared
+// here beyond black/white/opacity, on purpose.
+//
+// Interactions:
+//   · links      — underline wipes in from the left on hover
+//   · logo       — tracking opens up slightly, mark rotates
+//   · mobile     — panel slides down, links stagger in
+// ─────────────────────────────────────────────────────────────
+
 .navbar {
-  background: white;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   position: sticky;
   top: 0;
   z-index: 100;
+  background: rgba(0, 0, 0, 0.72);
+  backdrop-filter: blur(14px) saturate(120%);
+  -webkit-backdrop-filter: blur(14px) saturate(120%);
+  border-bottom: 1px solid var(--w-15);
+  // No shadow — on black it reads as mud. The hairline does the work.
 
   .container {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 70px;
-    padding: 0 16px;
+    height: 82px;
+    // Same centred measure as the page sections, so the logo lines
+    // up with section content rather than sitting at the viewport
+    // edge. The navbar persists on every route, so it follows the
+    // page measure, not the hero's full bleed.
+    max-width: none;
+    padding: 0 var(--page-pad);
 
-    @media (max-width: 480px) {
-      height: 60px;
-    }
+    @media (max-width: 768px) { height: 70px; }
+    @media (max-width: 480px) { height: 62px; }
   }
 
+  // ── Logo ───────────────────────────────────────────────────
+  // Real wordmark asset rather than set type. Height-driven so it
+  // scales with the bar; width follows the 480x136 aspect.
   .logo {
-    font-size: 28px;
-    font-weight: bold;
-    font-family: "Lobster", sans-serif;
-    color: #1f2937;
+    display: inline-flex;
+    align-items: center;
     text-decoration: none;
+    line-height: 0;
+  }
 
-    @media (max-width: 480px) {
-      font-size: 22px;
+  .logo__img {
+    height: clamp(30px, 3.4vw, 42px);
+    width: auto;
+    display: block;
+    transition: opacity 0.3s var(--ease-out), transform 0.45s var(--ease);
+
+    &:hover {
+      opacity: 0.82;
+      transform: scale(1.02);
     }
 
-    span {
-      color: #d97706;
+    @media (max-width: 480px) {
+      height: 26px;
     }
   }
 
+  // ── Mobile toggle ──────────────────────────────────────────
   .mobile-menu-btn {
     display: none;
     background: none;
-    border: none;
+    border: 1px solid var(--w-15);
+    border-radius: 2px;
     cursor: pointer;
     padding: 8px;
-    color: #1f2937;
+    color: var(--white);
+    line-height: 0;
+    transition: border-color 0.3s var(--ease-out),
+                background 0.3s var(--ease-out);
 
-    @media (max-width: 768px) {
-      display: block;
+    &:hover {
+      border-color: var(--white);
+      background: var(--w-08);
     }
+
+    @media (max-width: 768px) { display: block; }
   }
 
+  // ── Links ──────────────────────────────────────────────────
   .nav-links {
     display: flex;
-    gap: 30px;
+    align-items: center;
+    gap: clamp(22px, 2.6vw, 40px);
     list-style: none;
 
-    a {
+    a,
+    .nav-logout {
+      position: relative;
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 400;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
       text-decoration: none;
-      color: #666;
-      font-size: 15px;
-      transition: color 0.3s;
+      color: var(--w-70);
+      transition: color 0.3s var(--ease-out);
+      padding-bottom: 4px;
+
+      // Underline wipes in from the left rather than fading —
+      // reads as deliberate on a flat black field.
+      &::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        height: 1px;
+        background: var(--white);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.4s var(--ease);
+      }
 
       &:hover {
-        color: #d97706;
+        color: var(--white);
+        &::after { transform: scaleX(1); }
       }
     }
 
+    // ── Mobile panel ──
     @media (max-width: 768px) {
       display: none;
       position: absolute;
       top: 70px;
       left: 0;
       right: 0;
-      background: white;
+      background: rgba(0, 0, 0, 0.96);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--w-15);
       flex-direction: column;
-      padding: 20px;
-      text-align: center;
-      gap: 15px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      align-items: flex-start;
+      padding: 26px clamp(20px, 5vw, 40px) 32px;
+      gap: 20px;
 
       &.active {
         display: flex;
+        animation: navPanelIn 0.45s var(--ease) both;
+      }
+
+      // Stagger the links in behind the panel.
+      &.active li {
+        animation: navItemIn 0.5s var(--ease) both;
+      }
+      &.active li:nth-child(1) { animation-delay: 0.06s; }
+      &.active li:nth-child(2) { animation-delay: 0.12s; }
+      &.active li:nth-child(3) { animation-delay: 0.18s; }
+      &.active li:nth-child(4) { animation-delay: 0.24s; }
+      &.active li:nth-child(5) { animation-delay: 0.30s; }
+
+      a {
+        font-size: 15px;
+        display: block;
+        padding: 6px 0;
       }
     }
 
     @media (max-width: 480px) {
-      top: 60px;
-      padding: 16px;
-      gap: 12px;
-
-      a {
-        font-size: 16px; // slightly larger tap target
-        padding: 4px 0;
-        display: block;
-      }
+      top: 62px;
+      padding: 20px;
+      gap: 16px;
     }
   }
 
+  // ── Auth cluster ───────────────────────────────────────────
   .nav-auth {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 14px;
   }
 
   .nav-user {
-    color: #666;
-    font-size: 14px;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--w-50);
   }
 
   .nav-logout {
     background: none;
     border: none;
     cursor: pointer;
-    color: #666;
-    font-size: 15px;
-    font-family: inherit;
-    padding: 0;
-
-    &:hover {
-      color: #d97706;
-    }
+    font-family: var(--font-body);
+    padding: 0 0 4px;
   }
 
-  .nav-actions {
-    .search-btn {
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 8px;
-      color: #666;
+  .nav-actions .search-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    color: var(--w-70);
+    transition: color 0.3s var(--ease-out);
 
-      &:hover {
-        color: #d97706;
-      }
-    }
+    &:hover { color: var(--white); }
+  }
+}
+
+@keyframes navPanelIn {
+  from { opacity: 0; transform: translateY(-12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes navItemIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+// Respect a reduced-motion preference — kill transforms, keep state.
+@media (prefers-reduced-motion: reduce) {
+  .navbar {
+    .logo,
+    .nav-links a,
+    .nav-links a::after,
+    .mobile-menu-btn { transition: none; }
+
+    .nav-links.active,
+    .nav-links.active li { animation: none; }
   }
 }
