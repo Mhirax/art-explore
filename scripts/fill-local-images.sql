@@ -1,7 +1,7 @@
 BEGIN;
 UPDATE "Institution" SET images = ARRAY['https://art-explore-db-images.s3.eu-north-1.amazonaws.com/institutions/a-white-space/A-White-space.jpg'] WHERE id = 'cmutpalzh000nj7vs831xbw2l';  -- A White Space
 UPDATE "Institution" SET images = ARRAY['https://art-explore-db-images.s3.eu-north-1.amazonaws.com/institutions/cmsskzngf000nqj1kyfsomga7/4329edbe-6600-455f-bc55-48d2f261aaf5.png'] WHERE id = 'cmutpam03000oj7vsp99tsmo4';  -- AINA
-UPDATE "Institution" SET images = ARRAY['https://art-explore-db-images.s3.eu-north-1.amazonaws.com/institutions/adeline-gallery/Adeline-gallery.jpg'] WHERE id = 'cmutpam0c000pj7vsmufyyaus';  -- Adeline Gallery
+UPDATE "Institution" SET images = ARRAY['https://art-explore-db-images.s3.eu-north-1.amazonaws.com/institutions/.jpg' WHERE id = 'cmutpam0c000pj7vsmufyyaus';  -- Adeline Gallery
 UPDATE "Institution" SET images = ARRAY['https://art-explore-db-images.s3.eu-north-1.amazonaws.com/institutions/angels-and-muse/Angelsmuse.jpg'] WHERE id = 'cmutpam0s000qj7vs4ik6me9t';  -- Angels and Muse
 UPDATE "Institution" SET images = ARRAY['https://art-explore-db-images.s3.eu-north-1.amazonaws.com/institutions/cmsg6me7e000tqoax2ltni5xd/0c83dd8b-1486-4a80-b015-d15203fee5ab.png'] WHERE id = 'cmutpam1a000rj7vsmxw7j00h';  -- Arthouse Contemporary
 UPDATE "Institution" SET images = ARRAY['https://art-explore-db-images.s3.eu-north-1.amazonaws.com/institutions/bogobiri/Bogobiri.jpg'] WHERE id = 'cmutpam1p000sj7vsthbmmmyj';  -- Bogobiri House
